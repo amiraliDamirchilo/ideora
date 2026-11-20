@@ -1,0 +1,8 @@
+# Never upload secrets or local-only files to Vercel
+ideora.env
+*.env
+.env*
+server.py
+start.bat
+__pycache__/
+README.md

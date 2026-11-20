@@ -1,0 +1,10 @@
+{
+  "name": "ideora",
+  "version": "1.0.0",
+  "private": true,
+  "description": "AI market analysis for raw business ideas",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  }
+}

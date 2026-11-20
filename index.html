@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Ideora</title>
+  <meta name="description" content="Share your business idea and get a deep AI market analysis: competitors, successes, failures, revenue models and opportunities." />
+  <meta name="theme-color" content="#212121" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2310a37f'/%3E%3Cpath d='M16 7a7 7 0 0 0-4 12.7V22h8v-2.3A7 7 0 0 0 16 7zm-3 17h6v1.5a1.5 1.5 0 0 1-1.5 1.5h-3a1.5 1.5 0 0 1-1.5-1.5z' fill='white'/%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app" id="app">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-top">
+        <button class="icon-btn" id="closeSidebar" title="Close sidebar" aria-label="Close sidebar">
+          <svg viewBox="0 0 24 24" width="22" height="22"><rect x="3" y="4" width="18" height="16" rx="3" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M9 4v16" stroke="currentColor" stroke-width="1.8"/></svg>
+        </button>
+        <button class="icon-btn" id="newChatTop" title="New chat" aria-label="New chat">
+          <svg viewBox="0 0 24 24" width="22" height="22"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+
+      <button class="brand-row" id="newChatBrand">
+        <span class="logo">
+          <svg viewBox="0 0 24 24" width="16" height="16"><path d="M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2zm-3 17h6v1.5a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 20.5z" fill="currentColor"/></svg>
+        </span>
+        <span>New idea</span>
+      </button>
+
+      <div class="search-wrap">
+        <svg viewBox="0 0 24 24" width="16" height="16"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M20 20l-3.5-3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <input id="searchChats" type="text" placeholder="Search chats" autocomplete="off" />
+      </div>
+
+      <nav class="history" id="history" aria-label="Chat history"></nav>
+
+      <div class="sidebar-bottom">
+        <div class="storage-meter" id="storageMeter" title="Everything is saved in your browser cookies">
+          <div class="storage-label"><span>Cookie storage</span><span id="storageText">0%</span></div>
+          <div class="storage-bar"><div id="storageFill"></div></div>
+        </div>
+        <button class="side-action" id="clearAll">
+          <svg viewBox="0 0 24 24" width="18" height="18"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Clear all chats
+        </button>
+        <div class="no-login">No sign-up. Your chats stay in this browser.</div>
+      </div>
+    </aside>
+    <div class="scrim" id="scrim"></div>
+
+    <!-- Main -->
+    <main class="main">
+      <header class="topbar">
+        <button class="icon-btn" id="openSidebar" title="Open sidebar" aria-label="Open sidebar">
+          <svg viewBox="0 0 24 24" width="22" height="22"><rect x="3" y="4" width="18" height="16" rx="3" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M9 4v16" stroke="currentColor" stroke-width="1.8"/></svg>
+        </button>
+
+        <div class="model-picker">
+          <button class="model-btn" id="modelBtn" aria-haspopup="listbox" aria-expanded="false">
+            <span class="model-name">Ideora</span>
+            <span class="model-sub" id="modelLabel">3.6 Flash</span>
+            <svg viewBox="0 0 24 24" width="16" height="16"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="menu model-menu" id="modelMenu" role="listbox" hidden></div>
+        </div>
+
+        <div class="topbar-spacer"></div>
+        <button class="icon-btn mobile-only" id="newChatMobile" title="New chat" aria-label="New chat">
+          <svg viewBox="0 0 24 24" width="22" height="22"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </header>
+
+      <div class="banner" id="cookieBanner" hidden></div>
+
+      <section class="thread" id="thread" aria-live="polite">
+        <div class="messages" id="messages"></div>
+      </section>
+
+      <!-- Empty state + composer -->
+      <div class="composer-area" id="composerArea">
+        <div class="hero" id="hero">
+          <h1>What's your idea?</h1>
+          <p>Describe it in a few lines. Ideora analyzes the market, competitors, wins and failures, revenue models and hidden opportunities.</p>
+        </div>
+
+        <form class="composer" id="composer" autocomplete="off">
+          <textarea id="input" rows="1" placeholder="Describe your business idea…" dir="auto"></textarea>
+          <div class="composer-row">
+            <div class="depth" id="depthGroup" role="radiogroup" aria-label="Analysis depth">
+              <button type="button" class="chip" data-depth="quick">Quick scan</button>
+              <button type="button" class="chip" data-depth="standard">Standard</button>
+              <button type="button" class="chip" data-depth="deep">Deep dive</button>
+            </div>
+            <button type="submit" class="send-btn" id="sendBtn" aria-label="Send" disabled>
+              <svg class="i-send" viewBox="0 0 24 24" width="18" height="18"><path d="M12 19V5M5 12l7-7 7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <svg class="i-stop" viewBox="0 0 24 24" width="14" height="14"><rect x="5" y="5" width="14" height="14" rx="2" fill="currentColor"/></svg>
+            </button>
+          </div>
+        </form>
+
+        <div class="suggestions" id="suggestions"></div>
+        <div class="disclaimer">Ideora can make mistakes and can't browse the web. Verify important facts.</div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Chat item context menu -->
+  <div class="menu item-menu" id="itemMenu" hidden>
+    <button data-act="rename">
+      <svg viewBox="0 0 24 24" width="16" height="16"><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+      Rename
+    </button>
+    <button data-act="delete" class="danger">
+      <svg viewBox="0 0 24 24" width="16" height="16"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Delete
+    </button>
+  </div>
+
+  <div class="toast" id="toast" hidden></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.1.6/purify.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
+  <script src="prompt.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

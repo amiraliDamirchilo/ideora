@@ -1,0 +1,9 @@
+# secrets
+ideora.env
+*.env
+.env*
+
+# local
+__pycache__/
+.vercel/
+node_modules/
